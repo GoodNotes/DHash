@@ -1,3 +1,8 @@
+#! /usr/bin/env python3
+
+import sys
+from PIL import Image
+
 class DHash(object):
     @staticmethod
     def calculate_hash(image):
@@ -76,3 +81,14 @@ class DHash(object):
         difference = (int(dhash1, 16)) ^ (int(dhash2, 16))
         return bin(difference).count("1")
 
+
+if __name__ == "__main__":
+    image1 = Image.open(sys.argv[1])
+    image2 = Image.open(sys.argv[2])
+    max_score = int(sys.argv[3])
+    score = DHash.hamming_distance(image1, image2)
+    if score <= max_score:
+        print(f"Images {sys.argv[1]} and {sys.argv[2]} are equivalent")
+    else:
+        print(f"Images {sys.argv[1]} and {sys.argv[2]} are not identical, score: {score}")
+        sys.exit(1)
